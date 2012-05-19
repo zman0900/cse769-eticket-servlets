@@ -73,6 +73,6 @@ public class VenueServlet extends HttpServlet {
 		String zipcode = req.getParameter("Zipcode");
 		
 		venueService.createVenue(name, new Integer(size), description, address,
-				city, state, zipcode, null);
+				city, state, zipcode);
 	}
 }
