@@ -63,13 +63,21 @@ public class EventCreateServlet extends HttpServlet {
 		String quantity = request.getParameter("quantity");
 		String venue = request.getParameter("venue");
 		
-		List<EventCategory> eventCategory = new ArrayList<EventCategory>();
-		List<EventCategory> cat = eventCategoryService.findCategoryByName(category);
-		eventCategory.add((EventCategory) cat);
+		List<EventCategory> eventCategory = eventCategoryService.findCategoryByName(category);
 		
-		List<Venue> venueObject = venueService.findVenuesByName(venue);
+		EventCategory cat = null;
+		for (EventCategory eventCategory2 : eventCategory) {
+			cat = eventCategory2;
+		}
 		
-		eventService.createEvent(name, eventCategory, description, new Double(cost), new Date(), new Integer(quantity), venueObject.get(0));
+		List<Venue> venueObject = venueService.findVenuesByName(venue);		
+		
+		Venue ven = null;
+		for (Venue venue2 : venueObject) {
+			ven = venue2;
+		}
+		
+		eventService.createEvent(name, cat, description, new Double(cost), new Date(), new Integer(quantity), ven);
 		
 		PrintWriter writer = response.getWriter();		
 		List<Event> events = eventService.getAllEvents();     
