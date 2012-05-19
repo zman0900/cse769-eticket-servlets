@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cse769.EJB.Entity.Event;
-import com.cse769.EJB.Entity.EventCategory;
 import com.cse769.EJB.Service.EventService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
