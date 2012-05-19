@@ -26,7 +26,7 @@ public class UserLoginServlet extends HttpServlet {
      */
     public UserLoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
+     
     }
     
     @EJB
@@ -36,15 +36,13 @@ public class UserLoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("Control here 1");
+	
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Control here 2");
 		String name = request.getParameter("username");
 		String password = request.getParameter("password");
 		
