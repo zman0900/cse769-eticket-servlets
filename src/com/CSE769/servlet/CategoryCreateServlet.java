@@ -2,7 +2,6 @@ package com.CSE769.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -11,26 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.cse769.EJB.Entity.User;
-import com.cse769.EJB.Service.UserService;
+import com.cse769.EJB.Service.EventCategoryService;
 
 /**
- * Servlet implementation class UserCreateServlet
+ * Servlet implementation class CategoryCreateServlet
  */
-@WebServlet("/UserCreateServlet")
-public class UserCreateServlet extends HttpServlet {
+@WebServlet("/CategoryCreateServlet")
+public class CategoryCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserCreateServlet() {
+    public CategoryCreateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
     
     @EJB
-    UserService userSevice = new UserService();
+    EventCategoryService eventCategoryService = new EventCategoryService();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,19 +41,13 @@ public class UserCreateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String email = request.getParameter("email");
-		String address = request.getParameter("Address");
-		String city = request.getParameter("City");
-		String state = request.getParameter("State");
-		String zipcode = request.getParameter("Zipcode");
-		String phone = request.getParameter("phone");
-		userSevice.createUser(username, password, email, address, city, state, zipcode, phone);
+		String category = request.getParameter("category");
+		eventCategoryService.createEventCategory(category);
 		
 		PrintWriter writer = response.getWriter();		
 		
-		writer.println("<h3> User Created Successfully </h3>");
-		writer.println("<a href=\"/OSU-eTicket-EJB-Servlet/Admin.html\">Home Page</a>");		
+		writer.println("<h3> Category Created Successfully </h3>");
+		writer.println("<a href=\"/OSU-eTicket-EJB-Servlet/Admin.html\">Home Page</a>");	
 	}
+
 }

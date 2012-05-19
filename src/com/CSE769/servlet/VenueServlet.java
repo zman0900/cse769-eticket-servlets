@@ -61,18 +61,23 @@ public class VenueServlet extends HttpServlet {
 		writer.close();
 	}
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String name = req.getParameter("Name");
-		String size = req.getParameter("Size");
-		String description = req.getParameter("Description");
-		String address = req.getParameter("Address");
-		String city = req.getParameter("City");
-		String state = req.getParameter("State");
-		String zipcode = req.getParameter("Zipcode");
+		String name = request.getParameter("Name");
+		String size = request.getParameter("Size");
+		String description = request.getParameter("Description");
+		String address = request.getParameter("Address");
+		String city = request.getParameter("City");
+		String state = request.getParameter("State");
+		String zipcode = request.getParameter("Zipcode");
 		
 		venueService.createVenue(name, new Integer(size), description, address,
-				city, state, zipcode, null);
+				city, state, zipcode);
+		
+		PrintWriter writer = response.getWriter();		
+		
+		writer.println("<h3> Venue Created Successfully </h3>");
+		writer.println("<a href=\"/OSU-eTicket-EJB-Servlet/Admin.html\">Home Page</a>");	
 	}
 }

@@ -80,10 +80,9 @@ public class EventCreateServlet extends HttpServlet {
 		eventService.createEvent(name, cat, description, new Double(cost), new Date(), new Integer(quantity), ven);
 		
 		PrintWriter writer = response.getWriter();		
-		List<Event> events = eventService.getAllEvents();     
-		for (Event event : events) {
-			writer.println("<h1>" + event.getName() +  "</h1>");
-		}		
+		
+		writer.println("<h3> Event Created Successfully </h3>");
+		writer.println("<a href=\"/OSU-eTicket-EJB-Servlet/Admin.html\">Home Page</a>");		
 	}
 
 }
