@@ -64,6 +64,9 @@ public class EventServlet extends HttpServlet {
 					return;
 				}
 				events = eventService.findEventsByCategoryId(categoryId);
+			} else if (params.containsKey("search")) {
+				String search = params.get("search")[0];
+				events = eventService.searchEventsByName(search);
 			} else {
 				events = eventService.getAllEvents();
 			}

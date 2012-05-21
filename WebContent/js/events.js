@@ -12,8 +12,10 @@ function selectedRow(id) {
 	}
 }
 
-function selectedCategory(id) {
+function selectedCategory() {
 	console.log("selected id " + $("#categories").val());
+	// Clear search text
+	$("#search").val("");
 	var id = $("#categories").val();
 	if (id == -1) {
 		jQuery("#event_table").setGridParam({
@@ -26,6 +28,18 @@ function selectedCategory(id) {
 			url : 'EventServlet?categoryid=' + id
 		});
 	}
+	// Reload table
+	jQuery("#event_table").trigger("reloadGrid");
+}
+
+function searchEvents() {
+	// Set category to all
+	$("#categories").val(-1);
+	var text = $("#search").val();
+	jQuery("#event_table").setGridParam({
+		datatype : 'json',
+		url : 'EventServlet?search=' + text
+	});
 	// Reload table
 	jQuery("#event_table").trigger("reloadGrid");
 }
@@ -45,6 +59,8 @@ function loadDemoStuff() {
 			console.log('loaded demo data');
 		}
 	});
+	// Hide button
+	$("#demo_button").hide();
 }
 
 function loadCategories() {
@@ -63,12 +79,16 @@ function loadCategories() {
 $(document).ready(
 		function() {
 			// Demo button
-			$("a", ".demo").button();
-			$("a", ".demo").click(loadDemoStuff);
+			$("#demo_button").button();
+			$("#demo_button").click(loadDemoStuff);
 
 			// Categories
 			loadCategories();
 			$("#categories").change(selectedCategory);
+			
+			// Search
+			$("#search_button").button();
+			$("#search_button").click(searchEvents);
 
 			// Build table
 			$("#event_table").jqGrid(
