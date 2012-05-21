@@ -1,9 +1,76 @@
+function dateCellFormatter(cellvalue, options, rowObject) {
+	return $.datepicker.formatDate('MM dd, yy', new Date(cellvalue));
+}
+
+function priceCellFormatter(cellvalue, options, rowObject) {
+	return "$" + cellvalue;
+}
+
+function selectedRow(id) {
+	if (id != null) {
+		console.log("selected row id " + id);
+	}
+}
+
+function selectedCategory(id) {
+	console.log("selected id " + $("#categories").val());
+	var id = $("#categories").val();
+	if (id == -1) {
+		jQuery("#event_table").setGridParam({
+			datatype : 'json',
+			url : 'EventServlet'
+		});
+	} else {
+		jQuery("#event_table").setGridParam({
+			datatype : 'json',
+			url : 'EventServlet?categoryid=' + id
+		});
+	}
+	// Reload table
+	jQuery("#event_table").trigger("reloadGrid");
+}
+
+function loadDemoStuff() {
+	console.log('loading demo data...');
+	$.getJSON('EventServlet?demo', function(data) {
+		console.log('Got response: ' + data.result);
+		if (data.result == "success") {
+			// Reload table
+			jQuery("#event_table").setGridParam({
+				datatype : 'json'
+			});
+			jQuery("#event_table").trigger("reloadGrid");
+			// Reload categories
+			loadCategories();
+			console.log('loaded demo data');
+		}
+	});
+}
+
+function loadCategories() {
+	$("#categories").html("");
+	$("<option value='-1'>All</option>").appendTo("#categories");
+	$.getJSON('CategoryServlet', function(data) {
+		data.categories.forEach(function(item) {
+			$(
+					"<option value='" + item.category.id + "'>"
+							+ item.category.name + "</option>").appendTo(
+					"#categories");
+		});
+	});
+}
+
 $(document).ready(
 		function() {
-			$.getJSON('EventServlet?demo', function(data) {
-				console.log(data);
-			});
+			// Demo button
+			$("a", ".demo").button();
+			$("a", ".demo").click(loadDemoStuff);
 
+			// Categories
+			loadCategories();
+			$("#categories").change(selectedCategory);
+
+			// Build table
 			$("#event_table").jqGrid(
 					{
 						url : 'EventServlet',
@@ -18,26 +85,31 @@ $(document).ready(
 								'Description', 'Price' ],
 						colModel : [ {
 							name : 'event.name',
-							index : 'name'
+							index : 'name',
+							width : 100
 						}, {
 							name : 'event.venue',
-							index : 'venue'
+							index : 'venue',
+							width : 75
 						}, {
 							name : 'event.date',
 							index : 'date',
-							align : 'right'
+							width : 75,
+							formatter : dateCellFormatter
 						}, {
 							name : 'event.category',
 							index : 'category',
+							width : 75
 						}, {
 							name : 'event.description',
 							index : 'description',
-							sortable : false
+							sortable : false,
+							widht : 200
 						}, {
 							name : 'event.cost',
 							index : 'cost',
-							align : 'right',
-							width : 75
+							width : 40,
+							formatter : priceCellFormatter
 						} ],
 						gridview : true,
 						autowidth : true,
@@ -45,14 +117,20 @@ $(document).ready(
 						loadonce : true,
 						pager : jQuery('#pager'),
 						caption : 'All Events',
-						onRowSelect : function(ids) {
-							// This doesn't work for some reason
-							console.log("Called onRowSelect");
-							if (ids != null) {
-								alert("selected: " + ids);
-							} else {
-								alert("nothing selected?");
-							}
-						}
+						onSelectRow : selectedRow
 					});
+
+			// Add refresh button
+			jQuery("#event_table").jqGrid('navGrid', '#pager', {
+				edit : false,
+				view : false,
+				add : false,
+				del : false,
+				search : false,
+				beforeRefresh : function() {
+					$(this).jqGrid('setGridParam', {
+						datatype : 'json'
+					}).trigger('reloadGrid');
+				}
+			});
 		});

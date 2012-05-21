@@ -46,10 +46,27 @@ public class EventServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		Map<String, String[]> params = request.getParameterMap();
 		if (params.containsKey("demo")) {
-			eventService.createDemoEvents();
-			writer.println("success");
+			boolean result = eventService.createDemoEvents();
+			JsonObject jo = new JsonObject();
+			if (result)
+				jo.addProperty("result", "success");
+			else
+				jo.addProperty("result", "fail");
+			writer.write(jo.toString());
 		} else {
-			List<Event> events = eventService.getAllEvents();
+			System.out.println("Load Events");
+			List<Event> events;
+			if (params.containsKey("categoryid")) {
+				Long categoryId;
+				try {
+				categoryId = Long.parseLong(params.get("categoryid")[0]);
+				} catch (NumberFormatException e) {
+					return;
+				}
+				events = eventService.findEventsByCategoryId(categoryId);
+			} else {
+				events = eventService.getAllEvents();
+			}
 			JsonArray json = new JsonArray();
 			Iterator<Event> eventsIterator = events.iterator();
 			while (eventsIterator.hasNext()) {

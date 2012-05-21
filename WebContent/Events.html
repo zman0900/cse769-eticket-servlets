@@ -7,11 +7,19 @@
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/i18n/grid.locale-en.js"></script>
 <script type="text/javascript" src="js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
 <script type="text/javascript" src="js/events.js"></script>
 <title>OSU Events</title>
 </head>
 <body>
+	<div class="ui-widget">
+		<label>Filter by category:</label>
+		<select id="categories"></select>
+	</div>
 	<table id="event_table"><tr><td/></tr></table>
 	<div id="pager"></div>
+	<div class="demo">
+		<a href="#">Load demo events/categories/venues</a>
+	</div>
 </body>
 </html>
