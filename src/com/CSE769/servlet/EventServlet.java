@@ -53,13 +53,39 @@ public class EventServlet extends HttpServlet {
 			else
 				jo.addProperty("result", "fail");
 			writer.write(jo.toString());
+		} else if (params.containsKey("id")) {
+			Long id;
+			try {
+				id = Long.parseLong(params.get("id")[0]);
+			} catch (NumberFormatException e) {
+				return;
+			}
+			Event e = eventService.getEventById(id);
+			if (e != null) {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("id", e.getEventId());
+				jo.addProperty("name", e.getName());
+				jo.addProperty("description", e.getDescription());
+				jo.addProperty("cost", (float) e.getCost() / 100);
+				jo.addProperty("quantity", e.getQuantity());
+				jo.addProperty("venue", e.getVenue().getName());
+				jo.addProperty("venue_id", e.getVenue().getVenueId());
+				jo.addProperty("date", e.getDate().getTime());
+				jo.addProperty("category", e.getCategory().getCategory());
+				jo.addProperty("category_id", e.getCategory().getCategoryId());
+				JsonObject oneJsonEvent = new JsonObject();
+				oneJsonEvent.add("event", jo);
+				writer.write(oneJsonEvent.toString());
+			} else {
+				return;
+			}
 		} else {
 			System.out.println("Load Events");
 			List<Event> events;
 			if (params.containsKey("categoryid")) {
 				Long categoryId;
 				try {
-				categoryId = Long.parseLong(params.get("categoryid")[0]);
+					categoryId = Long.parseLong(params.get("categoryid")[0]);
 				} catch (NumberFormatException e) {
 					return;
 				}

@@ -9,6 +9,24 @@ function priceCellFormatter(cellvalue, options, rowObject) {
 function selectedRow(id) {
 	if (id != null) {
 		console.log("selected row id " + id);
+		$.getJSON('EventServlet?id=' + id, function(data) {
+			if (data != null) {
+				var event = data.event;
+				$("#event_name").empty();
+				$("#event_name").append(event.name);
+				$("#event_venue").empty();
+				$("#event_venue").append(event.venue);
+				$("#event_date").empty();
+				$("#event_date").append(
+						$.datepicker.formatDate('MM dd, yy', new Date(
+								event.date)));
+				$("#event_price").empty();
+				$("#event_price").append("$" + event.cost);
+				$("#event_desc").empty();
+				$("#event_desc").append(event.description);
+				$("#detail_wrapper").show();
+			}
+		});
 	}
 }
 
@@ -76,6 +94,21 @@ function loadCategories() {
 	});
 }
 
+function hideDetails() {
+	$("#detail_wrapper").hide();
+}
+
+function buyTicket() {
+	$("#dialog-not-implemented").dialog({
+		modal : true,
+		buttons : {
+			ok : function () {
+				$(this).dialog("close");
+			}
+		}
+	});
+}
+
 $(document).ready(
 		function() {
 			// Demo button
@@ -85,10 +118,17 @@ $(document).ready(
 			// Categories
 			loadCategories();
 			$("#categories").change(selectedCategory);
-			
+
 			// Search
 			$("#search_button").button();
 			$("#search_button").click(searchEvents);
+
+			// Detail
+			hideDetails();
+			$("#buy_button").button();
+			$("#buy_button").click(buyTicket);
+			$("#cancel_button").button();
+			$("#cancel_button").click(hideDetails);
 
 			// Build table
 			$("#event_table").jqGrid(
@@ -137,7 +177,8 @@ $(document).ready(
 						loadonce : true,
 						pager : jQuery('#pager'),
 						caption : 'All Events',
-						onSelectRow : selectedRow
+						onSelectRow : selectedRow,
+						hidegrid : false
 					});
 
 			// Add refresh button
