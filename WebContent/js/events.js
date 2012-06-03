@@ -14,6 +14,8 @@ function selectedRow(id) {
 				var event = data.event;
 				$("#event_name").empty();
 				$("#event_name").append(event.name);
+				$("#event_desc").empty();
+				$("#event_desc").append(event.description);
 				$("#event_venue").empty();
 				$("#event_venue").append(event.venue);
 				$("#event_date").empty();
@@ -24,6 +26,8 @@ function selectedRow(id) {
 				$("#event_price").append("$" + event.cost);
 				$("#event_desc").empty();
 				$("#event_desc").append(event.description);
+				$("#event_seats").empty();
+				$("#event_seats").append(event.available);
 				$("#detail_wrapper").show();
 			}
 		});
@@ -102,96 +106,83 @@ function buyTicket() {
 	$("#dialog-not-implemented").dialog({
 		modal : true,
 		buttons : {
-			ok : function () {
+			ok : function() {
 				$(this).dialog("close");
 			}
 		}
 	});
 }
 
-$(document).ready(
-		function() {
-			// Demo button
-			$("#demo_button").button();
-			$("#demo_button").click(loadDemoStuff);
+$(document).ready(function() {
+	// Demo button
+	$("#demo_button").button();
+	$("#demo_button").click(loadDemoStuff);
 
-			// Categories
-			loadCategories();
-			$("#categories").change(selectedCategory);
+	// Categories
+	loadCategories();
+	$("#categories").change(selectedCategory);
 
-			// Search
-			$("#search_button").button();
-			$("#search_button").click(searchEvents);
+	// Search
+	$("#search_button").button();
+	$("#search_button").click(searchEvents);
 
-			// Detail
-			hideDetails();
-			$("#buy_button").button();
-			$("#buy_button").click(buyTicket);
-			$("#cancel_button").button();
-			$("#cancel_button").click(hideDetails);
+	// Detail
+	hideDetails();
+	$("#buy_button").button();
+	$("#buy_button").click(buyTicket);
+	$("#cancel_button").button();
+	$("#cancel_button").click(hideDetails);
 
-			// Build table
-			$("#event_table").jqGrid(
-					{
-						url : 'EventServlet',
-						datatype : 'json',
-						mtype : 'GET',
-						jsonReader : {
-							root : "events",
-							repeatitems : false,
-							id : 'event.id'
-						},
-						colNames : [ 'Name', 'Venue', 'Date', 'Category',
-								'Description', 'Price' ],
-						colModel : [ {
-							name : 'event.name',
-							index : 'name',
-							width : 100
-						}, {
-							name : 'event.venue',
-							index : 'venue',
-							width : 75
-						}, {
-							name : 'event.date',
-							index : 'date',
-							width : 75,
-							formatter : dateCellFormatter
-						}, {
-							name : 'event.category',
-							index : 'category',
-							width : 75
-						}, {
-							name : 'event.description',
-							index : 'description',
-							sortable : false,
-							widht : 200
-						}, {
-							name : 'event.cost',
-							index : 'cost',
-							width : 40,
-							formatter : priceCellFormatter
-						} ],
-						gridview : true,
-						autowidth : true,
-						height : 'auto',
-						loadonce : true,
-						pager : jQuery('#pager'),
-						caption : 'All Events',
-						onSelectRow : selectedRow,
-						hidegrid : false
-					});
+	// Build table
+	$("#event_table").jqGrid({
+		url : 'EventServlet',
+		datatype : 'json',
+		mtype : 'GET',
+		jsonReader : {
+			root : "events",
+			repeatitems : false,
+			id : 'event.id'
+		},
+		colNames : [ 'Name', 'Venue', 'Date', 'Category' ],
+		colModel : [ {
+			name : 'event.name',
+			index : 'name',
+			width : 100
+		}, {
+			name : 'event.venue',
+			index : 'venue',
+			width : 75
+		}, {
+			name : 'event.date',
+			index : 'date',
+			width : 75,
+			formatter : dateCellFormatter
+		}, {
+			name : 'event.category',
+			index : 'category',
+			width : 75
+		} ],
+		gridview : true,
+		autowidth : true,
+		height : 'auto',
+		loadonce : true,
+		pager : jQuery('#pager'),
+		caption : 'All Events',
+		onSelectRow : selectedRow,
+		hidegrid : false
+	});
 
-			// Add refresh button
-			jQuery("#event_table").jqGrid('navGrid', '#pager', {
-				edit : false,
-				view : false,
-				add : false,
-				del : false,
-				search : false,
-				beforeRefresh : function() {
-					$(this).jqGrid('setGridParam', {
-						datatype : 'json'
-					}).trigger('reloadGrid');
-				}
-			});
-		});
+	// Add refresh button
+	jQuery("#event_table").jqGrid('navGrid', '#pager', {
+		edit : false,
+		view : false,
+		add : false,
+		del : false,
+		search : false,
+		beforeRefresh : function() {
+			$(this).jqGrid('setGridParam', {
+				datatype : 'json'
+			}).trigger('reloadGrid');
+		}
+	});
+});

@@ -61,6 +61,7 @@ public class EventServlet extends HttpServlet {
 				return;
 			}
 			Event e = eventService.getEventById(id);
+			Long availableTickets = eventService.getNumOfAvailableTickets(id);
 			if (e != null) {
 				JsonObject jo = new JsonObject();
 				jo.addProperty("id", e.getEventId());
@@ -73,6 +74,7 @@ public class EventServlet extends HttpServlet {
 				jo.addProperty("date", e.getDate().getTime());
 				jo.addProperty("category", e.getCategory().getCategory());
 				jo.addProperty("category_id", e.getCategory().getCategoryId());
+				jo.addProperty("available", availableTickets);
 				JsonObject oneJsonEvent = new JsonObject();
 				oneJsonEvent.add("event", jo);
 				writer.write(oneJsonEvent.toString());
