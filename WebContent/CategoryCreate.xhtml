@@ -16,7 +16,7 @@ Category Creation Form
 </div>
 <h:form>
 <fieldset>
-  	   <p><label>Category: </label><h:inputText value="#{categoryBean.category}"></h:inputText></p>
+  	   <p><label>Category: </label><h:inputText value="#{categoryBean.category}" required="true" requiredMessage="Category Name required"/></p>
    	   <p class="submit"><h:commandButton value="Create Category" action="#{categoryBean.createCategory}"></h:commandButton></p>
    	   </fieldset>
 </h:form>
