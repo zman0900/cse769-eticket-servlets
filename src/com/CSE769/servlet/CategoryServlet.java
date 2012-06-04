@@ -22,27 +22,29 @@ import com.google.gson.JsonObject;
  */
 @WebServlet("/CategoryServlet")
 public class CategoryServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private EventCategoryService ecs = new EventCategoryService();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CategoryServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public CategoryServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		PrintWriter writer = response.getWriter();
 		System.out.println("Load Categories");
-		List<EventCategory> categories =  ecs.getAllCategories();
+		List<EventCategory> categories = ecs.getAllCategories();
 		JsonArray json = new JsonArray();
 		Iterator<EventCategory> categoriesIterator = categories.iterator();
 		while (categoriesIterator.hasNext()) {
@@ -60,9 +62,11 @@ public class CategoryServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 

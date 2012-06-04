@@ -36,6 +36,28 @@ public class EventServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
+	private JsonObject eventToJson(Event e, Boolean withAvailableTickets) {
+		JsonObject jo = new JsonObject();
+		jo.addProperty("id", e.getEventId());
+		jo.addProperty("name", e.getName());
+		jo.addProperty("description", e.getDescription());
+		jo.addProperty("cost", (float) e.getCost() / 100);
+		jo.addProperty("quantity", e.getQuantity());
+		jo.addProperty("venue", e.getVenue().getName());
+		jo.addProperty("venue_id", e.getVenue().getVenueId());
+		jo.addProperty("date", e.getDate().getTime());
+		jo.addProperty("category", e.getCategory().getCategory());
+		jo.addProperty("category_id", e.getCategory().getCategoryId());
+		if (withAvailableTickets) {
+			Long availableTickets = eventService.getNumOfAvailableTickets(e
+					.getEventId());
+			jo.addProperty("available", availableTickets);
+		}
+		JsonObject oneJsonEvent = new JsonObject();
+		oneJsonEvent.add("event", jo);
+		return oneJsonEvent;
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -61,26 +83,10 @@ public class EventServlet extends HttpServlet {
 				return;
 			}
 			Event e = eventService.getEventById(id);
-			Long availableTickets = eventService.getNumOfAvailableTickets(id);
-			if (e != null) {
-				JsonObject jo = new JsonObject();
-				jo.addProperty("id", e.getEventId());
-				jo.addProperty("name", e.getName());
-				jo.addProperty("description", e.getDescription());
-				jo.addProperty("cost", (float) e.getCost() / 100);
-				jo.addProperty("quantity", e.getQuantity());
-				jo.addProperty("venue", e.getVenue().getName());
-				jo.addProperty("venue_id", e.getVenue().getVenueId());
-				jo.addProperty("date", e.getDate().getTime());
-				jo.addProperty("category", e.getCategory().getCategory());
-				jo.addProperty("category_id", e.getCategory().getCategoryId());
-				jo.addProperty("available", availableTickets);
-				JsonObject oneJsonEvent = new JsonObject();
-				oneJsonEvent.add("event", jo);
-				writer.write(oneJsonEvent.toString());
-			} else {
+			if (e == null) {
 				return;
 			}
+			writer.write(eventToJson(e, true).toString());
 		} else {
 			System.out.println("Load Events");
 			List<Event> events;
@@ -101,21 +107,7 @@ public class EventServlet extends HttpServlet {
 			JsonArray json = new JsonArray();
 			Iterator<Event> eventsIterator = events.iterator();
 			while (eventsIterator.hasNext()) {
-				Event e = eventsIterator.next();
-				JsonObject jo = new JsonObject();
-				jo.addProperty("id", e.getEventId());
-				jo.addProperty("name", e.getName());
-				jo.addProperty("description", e.getDescription());
-				jo.addProperty("cost", (float) e.getCost() / 100);
-				jo.addProperty("quantity", e.getQuantity());
-				jo.addProperty("venue", e.getVenue().getName());
-				jo.addProperty("venue_id", e.getVenue().getVenueId());
-				jo.addProperty("date", e.getDate().getTime());
-				jo.addProperty("category", e.getCategory().getCategory());
-				jo.addProperty("category_id", e.getCategory().getCategoryId());
-				JsonObject oneJsonEvent = new JsonObject();
-				oneJsonEvent.add("event", jo);
-				json.add(oneJsonEvent);
+				json.add(eventToJson(eventsIterator.next(), false));
 			}
 
 			JsonObject result = new JsonObject();
