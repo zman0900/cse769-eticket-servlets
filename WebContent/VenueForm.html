@@ -2,20 +2,32 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" media="screen" href="css/mystyle.css" />
 <title>Venue</title>
 </head>
 <body>
 
+<div>
+<h2>
+Venue Creation Form
+</h2>
+</div>
+
+<div >
+   
 	<form method="post" action="VenueServlet">
-		Venue Name: &nbsp;&nbsp;<input name="Name"><br>
-		Description: &nbsp; &nbsp;&nbsp;<input name="Description"><br>
-		Size: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<input name="Size"><br>
-		Address: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<input name="Address"><br>
-		City: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<input name="City"><br>
-		State: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<input name="State"><br>
-		Zipcode: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <input name="Zipcode"><br>
-		<input type="submit">
+	<fieldset>
+		<p><label>Venue Name: </label><input name="Name"></p>
+		<p><label>Description: </label><input name="Description"><br></p>
+		<p><label>Size: </label><input name="Size"><br></p>
+		<p><label>Address: </label><input name="Address"><br></p>
+		<p><label>City: </label><input name="City"><br></p>
+		<p><label>State: </label><input name="State"><br></p>
+		<p><label>Zipcode: </label><input name="Zipcode"><br></p>		
+		<p class="submit"> <input type="submit"></p>
+		</fieldset>
 	</form>
 
+</div>
 </body>
 </html>
