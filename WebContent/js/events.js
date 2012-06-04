@@ -35,9 +35,11 @@ function selectedRow(id) {
 }
 
 function selectedCategory() {
-	console.log("selected id " + $("#categories").val());
+	console.log("selected category id " + $("#categories").val());
 	// Clear search text
 	$("#search").val("");
+	// Set venue to all
+	$("#venues").val(-1);
 	var id = $("#categories").val();
 	if (id == -1) {
 		jQuery("#event_table").setGridParam({
@@ -54,16 +56,49 @@ function selectedCategory() {
 	jQuery("#event_table").trigger("reloadGrid");
 }
 
+function selectedVenue() {
+	console.log("selected venue id " + $("#venues").val());
+	// Clear search text
+	$("#search").val("");
+	// Set category to all
+	$("#categories").val(-1);
+	var id = $("#venues").val();
+	if (id == -1) {
+		jQuery("#event_table").setGridParam({
+			datatype : 'json',
+			url : 'EventServlet'
+		});
+	} else {
+		jQuery("#event_table").setGridParam({
+			datatype : 'json',
+			url : 'EventServlet?venueid=' + id
+		});
+	}
+	// Reload table
+	jQuery("#event_table").trigger("reloadGrid");
+}
+
 function searchEvents() {
 	// Set category to all
 	$("#categories").val(-1);
+	// Set venue to all
+	$("#venues").val(-1);
 	var text = $("#search").val();
+	var url = 'EventServlet';
+	if (text.length > 0) {
+		url = url + '?search=' + text;
+	}
 	jQuery("#event_table").setGridParam({
 		datatype : 'json',
-		url : 'EventServlet?search=' + text
+		url : url
 	});
 	// Reload table
 	jQuery("#event_table").trigger("reloadGrid");
+}
+
+function resetSearch() {
+	$("#search").val("");
+	searchEvents();
 }
 
 function loadDemoStuff() {
@@ -78,6 +113,8 @@ function loadDemoStuff() {
 			jQuery("#event_table").trigger("reloadGrid");
 			// Reload categories
 			loadCategories();
+			// Reload venues
+			loadVenues();
 			console.log('loaded demo data');
 		}
 	});
@@ -94,6 +131,19 @@ function loadCategories() {
 					"<option value='" + item.category.id + "'>"
 							+ item.category.name + "</option>").appendTo(
 					"#categories");
+		});
+	});
+}
+
+function loadVenues() {
+	$("#venues").html("");
+	$("<option value='-1'>All</option>").appendTo("#venues");
+	$.getJSON('VenueServlet', function(data) {
+		data.venues.forEach(function(item) {
+			$(
+					"<option value='" + item.venue.id + "'>"
+							+ item.venue.name + "</option>").appendTo(
+					"#venues");
 		});
 	});
 }
@@ -121,10 +171,16 @@ $(document).ready(function() {
 	// Categories
 	loadCategories();
 	$("#categories").change(selectedCategory);
+	
+	// Venues
+	loadVenues();
+	$("#venues").change(selectedVenue);
 
 	// Search
 	$("#search_button").button();
 	$("#search_button").click(searchEvents);
+	$("#reset_button").button();
+	$("#reset_button").click(resetSearch);
 
 	// Detail
 	hideDetails();
@@ -180,6 +236,11 @@ $(document).ready(function() {
 		del : false,
 		search : false,
 		beforeRefresh : function() {
+			// Reload categories
+			loadCategories();
+			// Reload venues
+			loadVenues();
+			// Reload table
 			$(this).jqGrid('setGridParam', {
 				datatype : 'json'
 			}).trigger('reloadGrid');

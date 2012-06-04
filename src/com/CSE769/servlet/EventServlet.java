@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -67,6 +68,13 @@ public class EventServlet extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter writer = response.getWriter();
 		Map<String, String[]> params = request.getParameterMap();
+		Iterator<Entry<String, String[]>> paramIterator = params.entrySet()
+				.iterator();
+		System.out.println("EventServlet doGet");
+		while(paramIterator.hasNext()) {
+			Entry<String, String[]> p = paramIterator.next();
+			System.out.println("\t" + p.getKey() + " = " + p.getValue()[0]);
+		}
 		if (params.containsKey("demo")) {
 			boolean result = eventService.createDemoEvents();
 			JsonObject jo = new JsonObject();
@@ -88,7 +96,6 @@ public class EventServlet extends HttpServlet {
 			}
 			writer.write(eventToJson(e, true).toString());
 		} else {
-			System.out.println("Load Events");
 			List<Event> events;
 			if (params.containsKey("categoryid")) {
 				Long categoryId;
@@ -98,6 +105,14 @@ public class EventServlet extends HttpServlet {
 					return;
 				}
 				events = eventService.findEventsByCategoryId(categoryId);
+			} else if (params.containsKey("venueid")) {
+				Long venueId;
+				try {
+					venueId = Long.parseLong(params.get("venueid")[0]);
+				} catch (NumberFormatException e) {
+					return;
+				}
+				events = eventService.findEventsByVenueId(venueId);
 			} else if (params.containsKey("search")) {
 				String search = params.get("search")[0];
 				events = eventService.searchEventsByName(search);

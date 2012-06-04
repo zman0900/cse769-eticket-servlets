@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -56,6 +57,13 @@ public class VenueServlet extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter writer = response.getWriter();
 		Map<String, String[]> params = request.getParameterMap();
+		Iterator<Entry<String, String[]>> paramIterator = params.entrySet()
+				.iterator();
+		System.out.println("VenueServlet doGet");
+		while(paramIterator.hasNext()) {
+			Entry<String, String[]> p = paramIterator.next();
+			System.out.println("\t" + p.getKey() + " = " + p.getValue()[0]);
+		}
 		if (params.containsKey("id")) {
 			Long id;
 			try {
@@ -69,7 +77,6 @@ public class VenueServlet extends HttpServlet {
 			}
 			writer.write(venueToJson(v).toString());
 		} else {
-			System.out.println("Load Venues");
 			List<Venue> venues = venueService.getAllVenues();
 			JsonArray json = new JsonArray();
 			Iterator<Venue> venuesIterator = venues.iterator();

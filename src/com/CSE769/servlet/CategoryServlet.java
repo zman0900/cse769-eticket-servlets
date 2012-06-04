@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -43,7 +45,14 @@ public class CategoryServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		PrintWriter writer = response.getWriter();
-		System.out.println("Load Categories");
+		Map<String, String[]> params = request.getParameterMap();
+		Iterator<Entry<String, String[]>> paramIterator = params.entrySet()
+				.iterator();
+		System.out.println("CategoryServlet doGet");
+		while(paramIterator.hasNext()) {
+			Entry<String, String[]> p = paramIterator.next();
+			System.out.println("\t" + p.getKey() + " = " + p.getValue()[0]);
+		}
 		List<EventCategory> categories = ecs.getAllCategories();
 		JsonArray json = new JsonArray();
 		Iterator<EventCategory> categoriesIterator = categories.iterator();
