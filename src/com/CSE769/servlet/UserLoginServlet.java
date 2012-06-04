@@ -20,51 +20,63 @@ import com.cse769.EJB.Service.UserService;
 @WebServlet("/UserLoginServlet")
 public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UserLoginServlet() {
-        super();
-     
-    }
-    
-    @EJB
-    UserService userService = new UserService();
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	public UserLoginServlet() {
+		super();
+
+	}
+
+	@EJB
+	UserService userService = new UserService();
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("username");
 		String password = request.getParameter("password");
-		
+
 		PrintWriter writer = response.getWriter();
-		
+
+		writer.write("<html><head>");
+
+		// None of this is secure since a user can just go straight to
+		// Admin.html or Events.html
 		if (name != null && name.length() != 0 && password != null
 				&& password.length() != 0) {
-			List<User> users = userService.findUsersByName(name);
-			if (users == null) {
-				writer.println("<h3> User not found </h3>");
+			if (name.equals("admin") && password.equals("admin")) {
+				// Hack for admin account
+				response.sendRedirect("/OSU-eTicket-EJB-Servlet/Admin.html");
 			} else {
-				for (User user : users) {
+				User user = userService.findUserByName(name);
+				if (user == null) {
+					writer.write("<h3>User not found</h3>");
+				} else {
 					if (user.getPassword().equals(password)) {
 						response.sendRedirect("/OSU-eTicket-EJB-Servlet/Events.html");
 					}
+					writer.write("<h3>Wrong password</h3>");
 				}
-				writer.println("<h3> Wrong password </h3>");
 			}
+		} else {
+			writer.write("<h3>Either username or password is empty</h3>");
 		}
-		else{
-			writer.println("<h3> Either username or password is empty </h3>");
-		}
+
+		writer.write("</body></html>");
 	}
 
 }
