@@ -20,6 +20,10 @@ import com.cse769.EJB.Service.UserService;
 @WebServlet("/UserLoginServlet")
 public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	static String PAGE_HEADER = "<html><head /><body>";
+
+    static String PAGE_FOOTER = "</body></html>";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,6 +51,7 @@ public class UserLoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		PrintWriter writer = response.getWriter();
+		writer.println(PAGE_HEADER);
 		
 		if (name != null && name.length() != 0 && password != null
 				&& password.length() != 0) {
@@ -68,6 +73,7 @@ public class UserLoginServlet extends HttpServlet {
 		else{
 			writer.println("<h3> Either username or password is empty </h3>");
 		}
+		writer.println(PAGE_FOOTER);
 	}
 
 }
