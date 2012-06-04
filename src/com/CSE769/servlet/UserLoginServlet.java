@@ -50,6 +50,9 @@ public class UserLoginServlet extends HttpServlet {
 		
 		if (name != null && name.length() != 0 && password != null
 				&& password.length() != 0) {
+			if(name.equals("admin") && password.equals("admin")){
+				response.sendRedirect("/OSU-eTicket-EJB-Servlet/Admin.html");
+			}
 			List<User> users = userService.findUsersByName(name);
 			if (users == null) {
 				writer.println("<h3> User not found </h3>");

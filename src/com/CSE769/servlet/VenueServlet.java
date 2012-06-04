@@ -28,6 +28,10 @@ public class VenueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private VenueService venueService;
+	
+	static String PAGE_HEADER = "<html><head /><body>";
+
+	static String PAGE_FOOTER = "</body></html>";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -104,8 +108,9 @@ public class VenueServlet extends HttpServlet {
 				city, state, zipcode);
 
 		PrintWriter writer = response.getWriter();
-
+		writer.println(PAGE_HEADER);
 		writer.println("<h3> Venue Created Successfully </h3>");
 		writer.println("<a href=\"/OSU-eTicket-EJB-Servlet/Admin.html\">Home Page</a>");
+		writer.println(PAGE_FOOTER);
 	}
 }

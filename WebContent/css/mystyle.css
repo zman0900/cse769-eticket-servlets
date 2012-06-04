@@ -1,0 +1,22 @@
+@CHARSET "ISO-8859-1";
+
+label
+{
+width: 6em;
+float: left;
+text-align: right;
+margin-right: 0.5em;
+display: block
+}
+
+fieldset
+{
+border: 1px solid #781351;
+width: 20em
+}
+
+
+.submit input
+{
+margin-left: 8em;
+}
