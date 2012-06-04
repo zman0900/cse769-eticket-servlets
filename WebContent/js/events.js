@@ -28,6 +28,23 @@ function selectedRow(id) {
 				$("#event_desc").append(event.description);
 				$("#event_seats").empty();
 				$("#event_seats").append(event.available);
+				
+				$.getJSON('VenueServlet?id=' + event.venue_id, function(data) {
+					if (data != null) {
+						var venue = data.venue;
+						$("#venue_desc").empty();
+						$("#venue_desc").append(venue.description);
+						$("#venue_address").empty();
+						$("#venue_address").append(venue.address);
+						$("#venue_city").empty();
+						$("#venue_city").append(venue.city + ",");
+						$("#venue_state").empty();
+						$("#venue_state").append(venue.state);
+						$("#venue_zip").empty();
+						$("#venue_zip").append(venue.zip);
+					}
+				});
+				
 				$("#detail_wrapper").show();
 			}
 		});
@@ -150,6 +167,7 @@ function loadVenues() {
 
 function hideDetails() {
 	$("#detail_wrapper").hide();
+	jQuery("#event_table").resetSelection();
 }
 
 function buyTicket() {
@@ -183,7 +201,6 @@ $(document).ready(function() {
 	$("#reset_button").click(resetSearch);
 
 	// Detail
-	hideDetails();
 	$("#buy_button").button();
 	$("#buy_button").click(buyTicket);
 	$("#cancel_button").button();

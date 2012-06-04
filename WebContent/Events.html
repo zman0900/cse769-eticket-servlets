@@ -22,23 +22,39 @@
 	</div>
 	<table id="event_table"><tr><td/></tr></table>
 	<div id="pager"></div>
-	<div id="detail_wrapper" class="ui-widget">
+	<div id="detail_wrapper" class="ui-widget ui-helper-hidden">
 		<p>
 			<b><span id="event_name"></span></b>
 			<br />
 			<span id="event_desc"></span>
-			<br />
-			<br />
-			<label>Venue: <span id="event_venue"></span></label>
-			<br />
-			<label>Date: <span id="event_date"></span></label>
-			<br />
-			<label>Remaining seats: <span id="event_seats"></span></label>
-			<br />
-			<label>Price: <span id="event_price"></span></label>
-			<br /><br />
-			<span id="event_desc"></span>
 		</p>
+		<table style="width:100%; table-layout:fixed;">
+			<tbody>
+				<tr>
+					<td style="width:50%; vertical-align:top;">
+						<label>Date: <span id="event_date"></span></label>
+						<br />
+						<label>Remaining seats: <span id="event_seats"></span></label>
+						<br />
+						<label>Price: <span id="event_price"></span></label>
+					</td>
+					<td style="width:50%; vertical-align:top;">
+						<label>Venue: <span id="event_venue"></span></label>
+						<br />
+						<span id="venue_desc"></span>
+						<br />
+						<br />
+						<label>Address:
+							<span id="venue_address"></span>
+							<br />
+							<span id="venue_city"></span>
+							<span id="venue_state"></span>
+							<span id="venue_zip"></span>
+						</label>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<a href="#" id="buy_button">Buy Ticket</a>
 		<a href="#" id="cancel_button">Cancel</a>
 	</div>
