@@ -199,6 +199,13 @@ $(document).ready(function() {
 	$("#search_button").click(searchEvents);
 	$("#reset_button").button();
 	$("#reset_button").click(resetSearch);
+	$("#search").keypress(function(e) {
+		code = (e.keyCode ? e.keyCode : e.which);
+		if (code == 13) {
+			e.preventDefault();
+			searchEvents();
+		}
+	});
 
 	// Detail
 	$("#buy_button").button();
