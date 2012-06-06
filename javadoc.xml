@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc" >
+
+    <target name="javadoc" >
+
+        <javadoc
+            access="protected"
+            additionalparam="-pdf ./doc.pdf -config ./config_doc.properties"
+            doclet="com.tarsec.javadoc.pdfdoclet.PDFDoclet"
+            docletpath="./pdfdoclet-1.0.2-all.jar"
+            packagenames="com.CSE769.servlet"
+            source="1.6"
+            sourcepath="src" />
+    </target>
+
+</project>

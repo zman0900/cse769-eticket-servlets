@@ -7,12 +7,17 @@ import javax.faces.bean.ManagedBean;
 import com.cse769.EJB.Entity.Venue;
 import com.cse769.EJB.Service.VenueService;
 
+/**
+ * Managed bean to allow JSF pages to interact with the {@link VenueService}.
+ * This is currently unused, so the rest in not documented.
+ * 
+ * @author group3
+ */
 @ManagedBean
 public class VenueBean {
 
 	@EJB
 	private VenueService venueService;
-
 	private String name;
 	private String size;
 	private String description;
@@ -77,7 +82,7 @@ public class VenueBean {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
-	
+
 	public List<String> getVenues() {
 		List<Venue> ven = venueService.getAllVenues();
 		venues = new ArrayList<String>();
