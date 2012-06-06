@@ -1,11 +1,18 @@
+// This is the javascrip file that handle all the AJAX for the main Events.html
+// page
+
+// Formats dates in the jqgrid
 function dateCellFormatter(cellvalue, options, rowObject) {
 	return $.datepicker.formatDate('MM dd, yy', new Date(cellvalue));
 }
 
+// Not used, could format prices in the jqgrid
 function priceCellFormatter(cellvalue, options, rowObject) {
 	return "$" + cellvalue;
 }
 
+// This is called when a row (event) in the jqgrid is selected to display the
+// event details
 function selectedRow(id) {
 	if (id != null) {
 		console.log("selected row id " + id);
@@ -51,6 +58,8 @@ function selectedRow(id) {
 	}
 }
 
+// This is called when a category is selected from the category dropdown to
+// display only those events
 function selectedCategory() {
 	console.log("selected category id " + $("#categories").val());
 	// Clear search text
@@ -73,6 +82,8 @@ function selectedCategory() {
 	jQuery("#event_table").trigger("reloadGrid");
 }
 
+// This is called when a venue is selected from the venue dropdown to
+// display only those events
 function selectedVenue() {
 	console.log("selected venue id " + $("#venues").val());
 	// Clear search text
@@ -95,6 +106,8 @@ function selectedVenue() {
 	jQuery("#event_table").trigger("reloadGrid");
 }
 
+// This is called when the search button is clicked (or enter pressed) to only
+// display matching events
 function searchEvents() {
 	// Set category to all
 	$("#categories").val(-1);
@@ -113,11 +126,13 @@ function searchEvents() {
 	jQuery("#event_table").trigger("reloadGrid");
 }
 
+// This is called when the reset button is clicked
 function resetSearch() {
 	$("#search").val("");
 	searchEvents();
 }
 
+// This is called when the "load demo events/etc..." button is clicked
 function loadDemoStuff() {
 	console.log('loading demo data...');
 	$.getJSON('EventServlet?demo', function(data) {
@@ -139,6 +154,7 @@ function loadDemoStuff() {
 	$("#demo_button").hide();
 }
 
+// This loads the categories into the category dropdown
 function loadCategories() {
 	$("#categories").html("");
 	$("<option value='-1'>All</option>").appendTo("#categories");
@@ -152,6 +168,7 @@ function loadCategories() {
 	});
 }
 
+// This loads the venues into the venue dropdown
 function loadVenues() {
 	$("#venues").html("");
 	$("<option value='-1'>All</option>").appendTo("#venues");
@@ -164,11 +181,14 @@ function loadVenues() {
 	});
 }
 
+// This hides the event details section
 function hideDetails() {
 	$("#detail_wrapper").hide();
 	jQuery("#event_table").resetSelection();
 }
 
+// This is called when the buy ticket button is clicked.
+// Currently only displays a place-holder dialog
 function buyTicket() {
 	$("#dialog-not-implemented").dialog({
 		modal : true,
@@ -180,20 +200,21 @@ function buyTicket() {
 	});
 }
 
+// Called by the browser when the DOM is ready for manipulation
 $(document).ready(function() {
-	// Demo button
+	// Setup demo button
 	$("#demo_button").button();
 	$("#demo_button").click(loadDemoStuff);
 
-	// Categories
+	// Setup categories dropdown
 	loadCategories();
 	$("#categories").change(selectedCategory);
 
-	// Venues
+	// Setup venues dropdown
 	loadVenues();
 	$("#venues").change(selectedVenue);
 
-	// Search
+	// Setup search field/button and reset button
 	$("#search_button").button();
 	$("#search_button").click(searchEvents);
 	$("#reset_button").button();
@@ -206,13 +227,13 @@ $(document).ready(function() {
 		}
 	});
 
-	// Detail
+	// Setup buttons in event detail view
 	$("#buy_button").button();
 	$("#buy_button").click(buyTicket);
 	$("#cancel_button").button();
 	$("#cancel_button").click(hideDetails);
 
-	// Build table
+	// Build jqgrid table of events
 	$("#event_table").jqGrid({
 		url : 'EventServlet',
 		datatype : 'json',
@@ -251,7 +272,7 @@ $(document).ready(function() {
 		hidegrid : false
 	});
 
-	// Add refresh button
+	// Add refresh button to events table
 	jQuery("#event_table").jqGrid('navGrid', '#pager', {
 		edit : false,
 		view : false,

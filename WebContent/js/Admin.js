@@ -1,7 +1,7 @@
-
 $(document).ready(function() {
 
-	// Search
+	// These use jquery-ui to cause all the listed links on the Admin.html page
+	// to appear as buttons
 	$("#create_user_button").button();
 	$("#create_event_button").button();
 	$("#create_venue_button").button();
