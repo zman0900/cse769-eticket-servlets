@@ -15,12 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cse769.EJB.Entity.Event;
+import com.cse769.EJB.Entity.EventCategory;
 import com.cse769.EJB.Service.EventService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 /**
- * Servlet implementation class EventServlet
+ * Servlet for {@link Event}s
+ * 
+ * @author group3
  */
 @WebServlet("/EventServlet")
 public class EventServlet extends HttpServlet {
@@ -30,13 +33,23 @@ public class EventServlet extends HttpServlet {
 	private EventService eventService = new EventService();
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
 	public EventServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Converts the specified {@link Event} to json, including the number of
+	 * unsold {@link Ticket}s if withAvailableTickets is true
+	 * 
+	 * @param e
+	 *            the {@link Event}
+	 * @param withAvailableTickets
+	 *            include the number of unsold {@link Ticket}s if true
+	 * @return the {@link Event} as a {@link JsonObject}
+	 */
 	private JsonObject eventToJson(Event e, Boolean withAvailableTickets) {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("id", e.getEventId());
@@ -60,8 +73,31 @@ public class EventServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * With no parameters specified, responds with an array of all {@link Event}
+	 * s in json format. <br />
+	 * <br />
+	 * If parameter "demo" is specified, creates demo events and responds with
+	 * "success=true/false" in json format. <br />
+	 * <br />
+	 * If parameter "id=num" is specified, responds with the {@link Event} in
+	 * json format which has the specified id. <br />
+	 * <br />
+	 * If parameter "categoryid=num" is specified, responds with an array of
+	 * {@link Event}s in json format which have an {@link EventCategory} with
+	 * the specified id. <br />
+	 * <br />
+	 * If parameter "venueid=num" is specified, responds with an array of
+	 * {@link Event}s in json format which have a {@link Venue} with the
+	 * specified id. <br />
+	 * <br />
+	 * If parameter "search=string" is specified, responds with an array of
+	 * {@link Event}s in json format whose names contain the specified string. <br />
+	 * <br />
+	 * If multiple parameters are specified, only the first one listed above is
+	 * performed.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
+	 *      HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -71,7 +107,7 @@ public class EventServlet extends HttpServlet {
 		Iterator<Entry<String, String[]>> paramIterator = params.entrySet()
 				.iterator();
 		System.out.println("EventServlet doGet");
-		while(paramIterator.hasNext()) {
+		while (paramIterator.hasNext()) {
 			Entry<String, String[]> p = paramIterator.next();
 			System.out.println("\t" + p.getKey() + " = " + p.getValue()[0]);
 		}

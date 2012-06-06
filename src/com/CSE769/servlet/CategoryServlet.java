@@ -20,7 +20,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 /**
- * Servlet implementation class CategoryServlet
+ * Servlet for {@link EventCategory}s
+ * 
+ * @author group3
  */
 @WebServlet("/CategoryServlet")
 public class CategoryServlet extends HttpServlet {
@@ -30,7 +32,7 @@ public class CategoryServlet extends HttpServlet {
 	private EventCategoryService ecs = new EventCategoryService();
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
 	public CategoryServlet() {
 		super();
@@ -38,8 +40,12 @@ public class CategoryServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Responds with an array of all {@link EventCategory}s in json format, or
+	 * if the "id" parameter is specified in the url, responds with the
+	 * {@link EventCategory} in json format with the specified id if it exists.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(HttpServletRequest request,
+	 *      HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -49,7 +55,7 @@ public class CategoryServlet extends HttpServlet {
 		Iterator<Entry<String, String[]>> paramIterator = params.entrySet()
 				.iterator();
 		System.out.println("CategoryServlet doGet");
-		while(paramIterator.hasNext()) {
+		while (paramIterator.hasNext()) {
 			Entry<String, String[]> p = paramIterator.next();
 			System.out.println("\t" + p.getKey() + " = " + p.getValue()[0]);
 		}

@@ -20,7 +20,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 /**
- * Servlet implementation class VenueServlet
+ * Servlet for {@link Venue}s
+ * 
+ * @author group3
  */
 @WebServlet("/VenueServlet")
 public class VenueServlet extends HttpServlet {
@@ -28,19 +30,26 @@ public class VenueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB
 	private VenueService venueService;
-	
+
 	static String PAGE_HEADER = "<html><head /><body>";
 
 	static String PAGE_FOOTER = "</body></html>";
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
 	public VenueServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	/**
+	 * Converts the specified {@link Venue} to json
+	 * 
+	 * @param aVenue
+	 *            the {@link Venue}
+	 * @return a {@link Venue} as a {@link JsonObject}
+	 */
 	private JsonObject venueToJson(Venue aVenue) {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("id", aVenue.getVenueId());
@@ -56,6 +65,16 @@ public class VenueServlet extends HttpServlet {
 		return oneJsonVenue;
 	}
 
+	/**
+	 * With no parameters specified, responds with an array of all {@link Venue}
+	 * s in json format. <br />
+	 * <br />
+	 * If parameter "id=num" is specified, responds with the {@link Venue} in
+	 * json format which has the specified id.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
@@ -64,7 +83,7 @@ public class VenueServlet extends HttpServlet {
 		Iterator<Entry<String, String[]>> paramIterator = params.entrySet()
 				.iterator();
 		System.out.println("VenueServlet doGet");
-		while(paramIterator.hasNext()) {
+		while (paramIterator.hasNext()) {
 			Entry<String, String[]> p = paramIterator.next();
 			System.out.println("\t" + p.getKey() + " = " + p.getValue()[0]);
 		}
@@ -93,6 +112,13 @@ public class VenueServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * Creates and stores a new {@link Venue} with the parameters specified as
+	 * "multipart/form-data" from an HTML form.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 

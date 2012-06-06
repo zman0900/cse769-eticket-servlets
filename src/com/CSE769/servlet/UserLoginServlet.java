@@ -14,14 +14,16 @@ import com.cse769.EJB.Entity.User;
 import com.cse769.EJB.Service.UserService;
 
 /**
- * Servlet implementation class UserLoginServlet
+ * Servlet for "logging in" {@link User}s that have already been created
+ * 
+ * @author group3
  */
 @WebServlet("/UserLoginServlet")
 public class UserLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
 	public UserLoginServlet() {
 		super();
@@ -32,8 +34,17 @@ public class UserLoginServlet extends HttpServlet {
 	UserService userService = new UserService();
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * If the correct username and password were specified as
+	 * "multipart/form-data" from an HTML form, the user will be redirected to
+	 * the Events.html page. <br />
+	 * <br />
+	 * If the username "admin" and the password "admin" were specified, the user
+	 * will be redirected to the Admin.html page. <br />
+	 * <br />
+	 * Otherwise, the user will be presented with an error message.
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(HttpServletRequest request,
+	 *      HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
