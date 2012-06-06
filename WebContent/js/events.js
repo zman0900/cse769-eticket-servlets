@@ -28,7 +28,7 @@ function selectedRow(id) {
 				$("#event_desc").append(event.description);
 				$("#event_seats").empty();
 				$("#event_seats").append(event.available);
-				
+
 				$.getJSON('VenueServlet?id=' + event.venue_id, function(data) {
 					if (data != null) {
 						var venue = data.venue;
@@ -44,7 +44,7 @@ function selectedRow(id) {
 						$("#venue_zip").append(venue.zip);
 					}
 				});
-				
+
 				$("#detail_wrapper").show();
 			}
 		});
@@ -158,9 +158,8 @@ function loadVenues() {
 	$.getJSON('VenueServlet', function(data) {
 		data.venues.forEach(function(item) {
 			$(
-					"<option value='" + item.venue.id + "'>"
-							+ item.venue.name + "</option>").appendTo(
-					"#venues");
+					"<option value='" + item.venue.id + "'>" + item.venue.name
+							+ "</option>").appendTo("#venues");
 		});
 	});
 }
@@ -189,7 +188,7 @@ $(document).ready(function() {
 	// Categories
 	loadCategories();
 	$("#categories").change(selectedCategory);
-	
+
 	// Venues
 	loadVenues();
 	$("#venues").change(selectedVenue);

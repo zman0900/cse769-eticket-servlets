@@ -2,36 +2,60 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"      
-      xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<link rel="stylesheet" type="text/css" media="screen" href="css/mystyle.css" />
-<title>JSF 2.0: Managed Beans</title>
+	<link rel="stylesheet" type="text/css" media="screen"
+		href="css/mystyle.css" />
+	<title>JSF 2.0: Managed Beans</title>
 </h:head>
 <h:body>
-<div>
-<h2>
-Event Creation Form
-</h2>
-</div>
+	<div>
+		<h2>Event Creation Form</h2>
+	</div>
 
-	
-<h:form>
-<fieldset>
-		<p><label>Event Name: </label><h:inputText value="#{eventBean.name}" required="true" requiredMessage="Event Name required"/></p>
-		<p><label>Category: </label>
-		<h:selectOneMenu id="category" value="#{eventBean.category}">
-			<f:selectItems value="#{categoryBean.categories}" />
-		</h:selectOneMenu></p>
-		<p><label>Description: </label><h:inputText value="#{eventBean.description}"/></p>
-		<p><label>Cost: </label><h:inputText value="#{eventBean.cost}" required="true" requiredMessage="Cost required"/></p>
-		<p><label>Date: </label><h:inputText value="#{eventBean.date}"/></p>
-		<p><label>Quantity: </label><h:inputText value="#{eventBean.quantity}" required="true" requiredMessage="Quantity required"/></p>
-		<p><label>Venue: </label>
-		<h:selectOneMenu id="venue" value="#{eventBean.venue}">
-			<f:selectItems value="#{venueBean.venues}" />
-		</h:selectOneMenu></p>
-   	    <p class="submit"><h:commandButton value="Create Event" action="#{eventBean.setEvent}"></h:commandButton></p>
-   	    </fieldset>
-</h:form>
-</h:body></html>
+
+	<h:form>
+		<fieldset>
+			<p>
+				<label>Event Name: </label>
+				<h:inputText value="#{eventBean.name}" required="true"
+					requiredMessage="Event Name required" />
+			</p>
+			<p>
+				<label>Category: </label>
+				<h:selectOneMenu id="category" value="#{eventBean.category}">
+					<f:selectItems value="#{categoryBean.categories}" />
+				</h:selectOneMenu>
+			</p>
+			<p>
+				<label>Description: </label>
+				<h:inputText value="#{eventBean.description}" />
+			</p>
+			<p>
+				<label>Cost: </label>
+				<h:inputText value="#{eventBean.cost}" required="true"
+					requiredMessage="Cost required" />
+			</p>
+			<p>
+				<label>Date: </label>
+				<h:inputText value="#{eventBean.date}" />
+			</p>
+			<p>
+				<label>Quantity: </label>
+				<h:inputText value="#{eventBean.quantity}" required="true"
+					requiredMessage="Quantity required" />
+			</p>
+			<p>
+				<label>Venue: </label>
+				<h:selectOneMenu id="venue" value="#{eventBean.venue}">
+					<f:selectItems value="#{venueBean.venues}" />
+				</h:selectOneMenu>
+			</p>
+			<p class="submit">
+				<h:commandButton value="Create Event" action="#{eventBean.setEvent}"></h:commandButton>
+			</p>
+		</fieldset>
+	</h:form>
+</h:body>
+</html>
